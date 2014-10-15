@@ -53,6 +53,8 @@ def make_parser():
       metavar='#', dest='offset', default='-1', type=int)
   parser_peek.add_argument('--pretty', help='pretty print message values if possible',
       dest='pretty', action='store_true', default=False)
+  parser_peek.add_argument('--outdir', help='dir to place peeked messages',
+      dest='outdir')
 
   #preserve
   parser_preserve = subparsers.add_parser('preserve', help='Save topics locally')
@@ -122,15 +124,25 @@ def cli_preserve(kafka_client, **kwargs):
 def cli_peek(kafka_client, **kwargs):
   
   pretty = kwargs['pretty'] if 'pretty' in kwargs else False
+  outdir = kwargs['outdir'] if 'outdir' in kwargs else None
+
+  if outdir is not None:
+    if not os.path.exists(outdir):
+      os.mkdir(outdir)
 
   for topic, res in kurator.topic_peek(kafka_client, **kwargs):
-    if pretty:
-      value =  '\n' + make_pretty(res.message.value)
+    if outdir is not None:
+      filename = os.path.join(outdir, '%s_%s' % (topic, res.message.key))
+      with open(filename, 'wb') as f:
+        f.write(res.message.value)
     else:
-      value = repr(res.message.value)
+      if pretty:
+        value =  '\n' + make_pretty(res.message.value)
+      else:
+        value = repr(res.message.value)
     
-    print bcolors.OKGREEN + topic + bcolors.ENDC + '[' + bcolors.HEADER + \
-        str(res.offset) + bcolors.ENDC + '] = ' + value
+      print bcolors.OKGREEN + topic + bcolors.ENDC + '[' + bcolors.HEADER + \
+          str(res.offset) + bcolors.ENDC + '] = ' + value
 
 def main():
   parser = make_parser()
