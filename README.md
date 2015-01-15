@@ -8,9 +8,10 @@ The inspiration for this tool is Elasticsearch's [Curator](https://github.com/el
 
 ## Installation
 
-Get a local copy and install using pip
+This has not been added to PyPi yet so to install, clone the repo and install using pip:
 
-    pip install -e ./kurator
+    git clone https://github.com/tpiscitell/kurator.git kurator
+    pip install ./kurator
 
 ## API Usage
 
