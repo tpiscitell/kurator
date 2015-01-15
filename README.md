@@ -25,7 +25,6 @@ See `kurator --help` for usage specifics and `kurator COMMAND --help` for usage 
 ### CLI Commands
 
 * list - List topics in the cluster
-* size - List topics and the number of messages in them
-* save - Save a local copy of messages in topics
-* load - Loads a saved local copy of topic messages into the cluster
-
+* size - List size of topics in the clsuter
+* peek - View messages in a topic
+* preserve - Dump contents of a Kafka topic to local file. Messages are stored in JSON format with base64 encoded values.

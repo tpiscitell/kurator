@@ -57,7 +57,7 @@ def make_parser():
       dest='outdir')
 
   #preserve
-  parser_preserve = subparsers.add_parser('preserve', help='Save topics locally')
+  parser_preserve = subparsers.add_parser('preserve', help='Save topics locally as JSON Objects with base64 encoded values')
   parser_preserve.set_defaults(func=cli_preserve)
   parser_preserve.add_argument('--outdir', help='where to save the topics to for later',
       metavar='DIR', dest='outdir', default=os.path.join(os.getcwd(), 'kurator_cli_%s' % datetime.utcnow().strftime('%Y_%m_%d')))
